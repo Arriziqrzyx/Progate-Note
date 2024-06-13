@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, Text } from 'react-native'
 import CustomButton from '../components/customButton'
 import { StatusBar } from 'expo-status-bar'
 
-function NoteCard({item, setCurrentPage}) {
+function NoteCard({item, setCurrentPage, deleteNote}) {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
@@ -23,14 +23,14 @@ function NoteCard({item, setCurrentPage}) {
           text="Hapus"
           fontSize={12}
           width={100}
-          onPress={() => {}}
+          onPress={() => deleteNote(item.id)}
         />
       </View>
     </View>
   )
 }
 
-function Home({noteList, setCurrentPage}) {
+function Home({noteList, setCurrentPage, deleteNote}) {
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor='transparent' />
@@ -43,7 +43,11 @@ function Home({noteList, setCurrentPage}) {
       />
       <FlatList 
         data={noteList} 
-        renderItem={({item}) => <NoteCard item={item} setCurrentPage={setCurrentPage} />} 
+        renderItem={({item}) => (
+          <NoteCard item={item}
+          setCurrentPage={setCurrentPage}
+          deleteNote={deleteNote} />
+        )} 
         keyExtractor={({id}) => id} 
       />
     </View>

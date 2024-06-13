@@ -23,10 +23,10 @@ const DUMMY_DATA = [
   }
 ]
 
-function CurrentPageWidget ({currentPage, setCurrentPage, noteList, addNote}) {
+function CurrentPageWidget ({currentPage, setCurrentPage, noteList, addNote, deleteNote}) {
   switch (currentPage) {
     case 'home':
-      return <Home noteList={noteList} setCurrentPage={setCurrentPage} />
+      return <Home noteList={noteList} setCurrentPage={setCurrentPage} deleteNote={deleteNote} />
     case 'addNote':
       return <AddNote setCurrentPage={setCurrentPage} addNote={addNote} />
     case 'editNote':
@@ -53,12 +53,18 @@ export default function App() {
     ])
   };
 
+  const deleteNote = (id) => {
+    const deletedNote = noteList.filter(note => note.id !== id);
+    setNoteList(deletedNote);
+  };
+
   return (
     <CurrentPageWidget
     currentPage={currentPage}
     setCurrentPage={setCurrentPage}
     noteList={noteList}
     addNote={addNote}
+    deleteNote={deleteNote}
     />
   )
 }
