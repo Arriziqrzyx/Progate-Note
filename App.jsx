@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Home from './src/screen/Home';
 import AddNote from './src/screen/addNote';
 import EditNote from './src/screen/editNote';
+import addNote from './src/screen/addNote';
 
 const DUMMY_DATA = [
   {
@@ -22,12 +23,12 @@ const DUMMY_DATA = [
   }
 ]
 
-function CurrentPageWidget ({currentPage, setCurrentPage, noteList}) {
+function CurrentPageWidget ({currentPage, setCurrentPage, noteList, addNote}) {
   switch (currentPage) {
     case 'home':
       return <Home noteList={noteList} setCurrentPage={setCurrentPage} />
     case 'addNote':
-      return <AddNote />
+      return <AddNote setCurrentPage={setCurrentPage} addNote={addNote} />
     case 'editNote':
       return <EditNote />
   
@@ -40,7 +41,26 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [noteList, setNoteList] = useState(DUMMY_DATA)
 
-  return <CurrentPageWidget currentPage={currentPage} setCurrentPage={setCurrentPage} noteList={noteList} />
+  const addNote = (title, desc) => {
+    const id = noteList.length > 0 ? noteList[noteList.length - 1].id + 1 : 1;
+    setNoteList([
+      ...noteList,
+      {
+        id: id,
+        title: title,
+        desc: desc,
+      }
+    ])
+  };
+
+  return (
+    <CurrentPageWidget
+    currentPage={currentPage}
+    setCurrentPage={setCurrentPage}
+    noteList={noteList}
+    addNote={addNote}
+    />
+  )
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, FlatList, Text } from 'react-native'
 import CustomButton from '../components/customButton'
+import { StatusBar } from 'expo-status-bar'
 
 function NoteCard({item, setCurrentPage}) {
   return (
@@ -32,6 +33,7 @@ function NoteCard({item, setCurrentPage}) {
 function Home({noteList, setCurrentPage}) {
   return (
     <View style={styles.container}>
+      <StatusBar translucent={false} backgroundColor='transparent' />
       <CustomButton
         backgroundColor="#DDD"
         color="#203239"
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   card: {
     padding: 10,
