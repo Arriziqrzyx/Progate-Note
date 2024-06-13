@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, FlatList, Text } from 'react-native'
 import CustomButton from '../components/customButton'
 
-function NoteCard({item}) {
+function NoteCard({item, setCurrentPage}) {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
@@ -14,7 +14,7 @@ function NoteCard({item}) {
           text="Ubah"
           fontSize={12}
           width={100}
-          onPress={() => {}}
+          onPress={() => setCurrentPage('editNote')}
         />
         <CustomButton
           backgroundColor="#D82148"
@@ -29,7 +29,7 @@ function NoteCard({item}) {
   )
 }
 
-function Home({noteList}) {
+function Home({noteList, setCurrentPage}) {
   return (
     <View style={styles.container}>
       <CustomButton
@@ -37,11 +37,11 @@ function Home({noteList}) {
         color="#203239"
         text="Tambahkan Note"
         width="100%"
-        onPress={() => {}}
+        onPress={() => setCurrentPage('addNote')}
       />
       <FlatList 
         data={noteList} 
-        renderItem={({item}) => <NoteCard item={item}/>} 
+        renderItem={({item}) => <NoteCard item={item} setCurrentPage={setCurrentPage} />} 
         keyExtractor={({id}) => id} 
       />
     </View>

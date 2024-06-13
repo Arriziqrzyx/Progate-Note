@@ -4,6 +4,8 @@ import CustomButton from './src/components/customButton';
 import CustomTextInput from './src/components/customTextInput';
 import { useState } from 'react';
 import Home from './src/screen/Home';
+import AddNote from './src/screen/addNote';
+import EditNote from './src/screen/editNote';
 
 const DUMMY_DATA = [
   {
@@ -20,10 +22,25 @@ const DUMMY_DATA = [
   }
 ]
 
+function CurrentPageWidget ({currentPage, setCurrentPage, noteList}) {
+  switch (currentPage) {
+    case 'home':
+      return <Home noteList={noteList} setCurrentPage={setCurrentPage} />
+    case 'addNote':
+      return <AddNote />
+    case 'editNote':
+      return <EditNote />
+  
+    default:
+      return <Home />
+  }
+}
+
 export default function App() {
+  const [currentPage, setCurrentPage] = useState('home')
   const [noteList, setNoteList] = useState(DUMMY_DATA)
 
-  return <Home noteList={noteList} />
+  return <CurrentPageWidget currentPage={currentPage} setCurrentPage={setCurrentPage} noteList={noteList} />
 }
 
 const styles = StyleSheet.create({
