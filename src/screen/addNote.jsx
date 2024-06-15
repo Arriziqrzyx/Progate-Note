@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import CustomTextInput from '../components/customTextInput';
 import CustomButton from '../components/customButton';
-import { StatusBar } from 'expo-status-bar';
 import { NoteContext } from '../context/NoteContext';
+import { StatusBar } from 'expo-status-bar';
 
 function AddNote() {
   const { setCurrentPage, addNote } = useContext(NoteContext);
@@ -12,13 +12,13 @@ function AddNote() {
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent={false} backgroundColor='transparent' />
+      <StatusBar translucent={false} backgroundColor='#247881' />
       <Text style={styles.pageTitle}>Tambahkan Note</Text>
       <CustomTextInput
         text={title}
         onChange={setTitle}
         label="Judul"
-        placeholder="Judul"
+        placeholder="Masukkan judul"
         numberOfLines={1}
         multiline={false}
       />
@@ -26,41 +26,36 @@ function AddNote() {
         text={desc}
         onChange={setDesc}
         label="Deskripsi"
-        placeholder="Deskripsi"
+        placeholder="Masukkan deskripsi"
         multiline
         numberOfLines={4}
       />
-      <View style={styles.spacerTop}>
-        <CustomButton 
-          backgroundColor="#247881"
-          color="#fff"
-          text="Simpan"
-          width="100%"
-          onPress={() => {
-            addNote(title, desc);
-            setCurrentPage('home');
-          }}
-          disabled={title === ''}
-        />
-      </View>
-      <View style={styles.spacerTop}>
-        <CustomButton
-          backgroundColor="#DDDDDD"
-          color="#203239"
-          text="Kembali ke Home"
-          width="100%"
-          onPress={() => setCurrentPage('home')}
-        />
-      </View>
+      <CustomButton
+        backgroundColor="#247881"
+        color="#fff"
+        text="Simpan"
+        width="100%"
+        onPress={() => {
+          addNote(title, desc);
+          setCurrentPage('home');
+        }}
+        disabled={title === ''}
+      />
+      <CustomButton
+        backgroundColor="#DDDDDD"
+        color="#203239"
+        text="Kembali ke Home"
+        width="100%"
+        onPress={() => setCurrentPage('home')}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#f0f0f0',
     padding: 20,
   },
   pageTitle: {
@@ -69,9 +64,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     color: '#203239',
-  },
-  spacerTop: {
-    marginTop: 30,
   },
 });
 

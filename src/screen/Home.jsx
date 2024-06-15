@@ -16,8 +16,8 @@ function NoteCard({ item }) {
           backgroundColor="#FFC300"
           color="#151D3B"
           text="Ubah"
-          fontSize={12}
-          width={100}
+          fontSize={14}
+          width={90}
           onPress={() => {
             setEditNote(item);
             setCurrentPage('editNote');
@@ -27,8 +27,8 @@ function NoteCard({ item }) {
           backgroundColor="#D82148"
           color="#fff"
           text="Hapus"
-          fontSize={12}
-          width={100}
+          fontSize={14}
+          width={90}
           onPress={() => deleteNote(item.id)}
         />
       </View>
@@ -41,20 +41,18 @@ function Home() {
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent={false} backgroundColor='transparent' />
+      <StatusBar translucent={false} backgroundColor='#247881' />
       <CustomButton
-        backgroundColor="#DDD"
-        color="#203239"
-        text="Tambahkan Note"
+        backgroundColor="#247881"
+        color="#fff"
+        text="Tambahkan Catatan"
         width="100%"
         onPress={() => setCurrentPage('addNote')}
       />
-      <FlatList 
-        data={noteList} 
-        renderItem={({item}) => (
-          <NoteCard item={item} />
-        )} 
-        keyExtractor={({id}) => id.toString()} 
+      <FlatList
+        data={noteList}
+        renderItem={({ item }) => <NoteCard item={item} />}
+        keyExtractor={item => item.id.toString()}
       />
     </View>
   );
@@ -62,30 +60,28 @@ function Home() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#f0f0f0',
     padding: 20,
-    marginTop: 10,
   },
   card: {
-    padding: 10,
-    marginVertical: 15,
-    borderColor: '#DDD',
-    borderWidth: 2,
-    borderRadius: 5,
+    backgroundColor: '#fff',
+    padding: 15,
+    marginTop: 20,
+    borderRadius: 10,
+    elevation: 3,
   },
   cardTitle: {
-    fontWeight: '600',
-    color: '#203239',
-    fontSize: 16,
-    marginBottom: 5,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
   },
   buttons: {
-    marginTop: 10,
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
+    marginTop: 15,
+    gap: 15,
   },
 });
 
