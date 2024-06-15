@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, StyleSheet, FlatList, Text, Modal, TouchableOpacity } from 'react-native';
 import CustomButton from '../components/customButton';
 import { StatusBar } from 'expo-status-bar';
 import { NoteContext } from '../context/NoteContext';
 
-function NoteCard({ item }) {
-  const { setCurrentPage, deleteNote, setEditNote } = useContext(NoteContext);
+function NoteCard({ item, onDelete }) {
+  const { setCurrentPage, setEditNote } = useContext(NoteContext);
 
   return (
     <View style={styles.card}>
@@ -29,7 +29,7 @@ function NoteCard({ item }) {
           text="Hapus"
           fontSize={14}
           width={90}
-          onPress={() => deleteNote(item.id)}
+          onPress={() => onDelete(item.id)}
         />
       </View>
     </View>
@@ -37,7 +37,19 @@ function NoteCard({ item }) {
 }
 
 function Home() {
-  const { noteList, setCurrentPage } = useContext(NoteContext);
+  const { noteList, setCurrentPage, deleteNote } = useContext(NoteContext);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
+
+  const handleDelete = (id) => {
+    setSelectedNoteId(id);
+    setModalVisible(true);
+  };
+
+  const confirmDelete = () => {
+    deleteNote(selectedNoteId);
+    setModalVisible(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -51,9 +63,29 @@ function Home() {
       />
       <FlatList
         data={noteList}
-        renderItem={({ item }) => <NoteCard item={item} />}
+        renderItem={({ item }) => <NoteCard item={item} onDelete={handleDelete} />}
         keyExtractor={item => item.id.toString()}
       />
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Yakin menghapus Note ini?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#D82148' }]} onPress={confirmDelete}> 
+                <Text style={styles.modalButtonText}>Hapus</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#A9A9A9' }]} onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalButtonText}>Tidak</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -82,6 +114,42 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginTop: 15,
     gap: 15,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  modalButton: {
+    padding: 10,
+    backgroundColor: '#247881',
+    borderRadius: 5,
+    width: 85,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

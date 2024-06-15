@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import CustomTextInput from '../components/customTextInput';
 import CustomButton from '../components/customButton';
 import { NoteContext } from '../context/NoteContext';
@@ -11,44 +11,51 @@ function AddNote() {
   const [desc, setDesc] = useState('');
 
   return (
-    <View style={styles.container}>
-      <StatusBar translucent={false} backgroundColor='#247881' />
-      <Text style={styles.pageTitle}>Tambahkan Note</Text>
-      <CustomTextInput
-        text={title}
-        onChange={setTitle}
-        label="Judul"
-        placeholder="Masukkan judul"
-        numberOfLines={1}
-        multiline={false}
-      />
-      <CustomTextInput
-        text={desc}
-        onChange={setDesc}
-        label="Deskripsi"
-        placeholder="Masukkan deskripsi"
-        multiline
-        numberOfLines={4}
-      />
-      <CustomButton
-        backgroundColor="#247881"
-        color="#fff"
-        text="Simpan"
-        width="100%"
-        onPress={() => {
-          addNote(title, desc);
-          setCurrentPage('home');
-        }}
-        disabled={title === ''}
-      />
-      <CustomButton
-        backgroundColor="#DDDDDD"
-        color="#203239"
-        text="Kembali ke Home"
-        width="100%"
-        onPress={() => setCurrentPage('home')}
-      />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          <StatusBar translucent={false} backgroundColor='#247881' />
+          <Text style={styles.pageTitle}>Tambahkan Note</Text>
+          <CustomTextInput
+            text={title}
+            onChange={setTitle}
+            label="Judul"
+            placeholder="Masukkan judul"
+            numberOfLines={1}
+            multiline={false}
+          />
+          <CustomTextInput
+            text={desc}
+            onChange={setDesc}
+            label="Deskripsi"
+            placeholder="Masukkan deskripsi"
+            multiline
+            numberOfLines={4}
+          />
+          <CustomButton
+            backgroundColor="#247881"
+            color="#fff"
+            text="Simpan"
+            width="100%"
+            onPress={() => {
+              addNote(title, desc);
+              setCurrentPage('home');
+            }}
+            disabled={title === ''}
+          />
+          <CustomButton
+            backgroundColor="#DDDDDD"
+            color="#203239"
+            text="Kembali ke Home"
+            width="100%"
+            onPress={() => setCurrentPage('home')}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
