@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-import CustomTextInput from '../components/customTextInput'
-import CustomButton from '../components/customButton'
-import { StatusBar } from 'expo-status-bar'
+import React, { useState, useContext } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import CustomTextInput from '../components/customTextInput';
+import CustomButton from '../components/customButton';
+import { StatusBar } from 'expo-status-bar';
+import { NoteContext } from '../context/NoteContext';
 
-function addNote({setCurrentPage, addNote}) {
-  const [title, setTitle] = useState('')
-  const [desc, setDesc] = useState('')
+function AddNote() {
+  const { setCurrentPage, addNote } = useContext(NoteContext);
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
 
   return (
     <View style={styles.container}>
@@ -51,7 +53,7 @@ function addNote({setCurrentPage, addNote}) {
         />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -71,7 +73,6 @@ const styles = StyleSheet.create({
   spacerTop: {
     marginTop: 30,
   },
-})
+});
 
-
-export default addNote
+export default AddNote;

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, FlatList, Text } from 'react-native';
 import CustomButton from '../components/customButton';
 import { StatusBar } from 'expo-status-bar';
+import { NoteContext } from '../context/NoteContext';
 
-function NoteCard({ item, setCurrentPage, deleteNote, setEditNote }) {
+function NoteCard({ item }) {
+  const { setCurrentPage, deleteNote, setEditNote } = useContext(NoteContext);
+
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
@@ -30,10 +33,12 @@ function NoteCard({ item, setCurrentPage, deleteNote, setEditNote }) {
         />
       </View>
     </View>
-  )
+  );
 }
 
-function Home({ noteList, setCurrentPage, deleteNote, setEditNote }) {
+function Home() {
+  const { noteList, setCurrentPage } = useContext(NoteContext);
+
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor='transparent' />
@@ -47,17 +52,12 @@ function Home({ noteList, setCurrentPage, deleteNote, setEditNote }) {
       <FlatList 
         data={noteList} 
         renderItem={({item}) => (
-          <NoteCard 
-            item={item}
-            setCurrentPage={setCurrentPage}
-            deleteNote={deleteNote}
-            setEditNote={setEditNote}
-          />
+          <NoteCard item={item} />
         )} 
         keyExtractor={({id}) => id.toString()} 
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
-})
+});
 
 export default Home;

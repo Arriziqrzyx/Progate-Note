@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import CustomTextInput from '../components/customTextInput';
 import CustomButton from '../components/customButton';
 import { StatusBar } from 'expo-status-bar';
+import { NoteContext } from '../context/NoteContext';
 
-function editNote({ setCurrentPage, editNote, updateNote }) {
+function EditNote() {
+  const { setCurrentPage, editNote, updateNote } = useContext(NoteContext);
   const [title, setTitle] = useState(editNote?.title || '');
   const [desc, setDesc] = useState(editNote?.desc || '');
 
@@ -18,7 +20,7 @@ function editNote({ setCurrentPage, editNote, updateNote }) {
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor='transparent' />
-      <Text style={styles.pageTitle}>Ubah Note</Text>
+      <Text style={styles.pageTitle}>Edit Note</Text>
       <CustomTextInput
         text={title}
         onChange={setTitle}
@@ -58,7 +60,7 @@ function editNote({ setCurrentPage, editNote, updateNote }) {
         />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -80,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default editNote;
+export default EditNote;
