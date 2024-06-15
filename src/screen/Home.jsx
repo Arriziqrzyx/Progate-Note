@@ -1,9 +1,9 @@
-import React from 'react'
-import { View, StyleSheet, FlatList, Text } from 'react-native'
-import CustomButton from '../components/customButton'
-import { StatusBar } from 'expo-status-bar'
+import React from 'react';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
+import CustomButton from '../components/customButton';
+import { StatusBar } from 'expo-status-bar';
 
-function NoteCard({item, setCurrentPage, deleteNote}) {
+function NoteCard({ item, setCurrentPage, deleteNote, setEditNote }) {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
@@ -15,7 +15,10 @@ function NoteCard({item, setCurrentPage, deleteNote}) {
           text="Ubah"
           fontSize={12}
           width={100}
-          onPress={() => setCurrentPage('editNote')}
+          onPress={() => {
+            setEditNote(item);
+            setCurrentPage('editNote');
+          }}
         />
         <CustomButton
           backgroundColor="#D82148"
@@ -30,7 +33,7 @@ function NoteCard({item, setCurrentPage, deleteNote}) {
   )
 }
 
-function Home({noteList, setCurrentPage, deleteNote}) {
+function Home({ noteList, setCurrentPage, deleteNote, setEditNote }) {
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor='transparent' />
@@ -44,11 +47,14 @@ function Home({noteList, setCurrentPage, deleteNote}) {
       <FlatList 
         data={noteList} 
         renderItem={({item}) => (
-          <NoteCard item={item}
-          setCurrentPage={setCurrentPage}
-          deleteNote={deleteNote} />
+          <NoteCard 
+            item={item}
+            setCurrentPage={setCurrentPage}
+            deleteNote={deleteNote}
+            setEditNote={setEditNote}
+          />
         )} 
-        keyExtractor={({id}) => id} 
+        keyExtractor={({id}) => id.toString()} 
       />
     </View>
   )
@@ -83,4 +89,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Home
+export default Home;
